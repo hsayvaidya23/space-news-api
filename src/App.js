@@ -1,22 +1,31 @@
 import "./App.css";
-import { useEffect } from 'react';
+import { useEffect, useState } from "react";
 
 function App() {
+  const [newsList, setNewsList] = useState([]);
+
   useEffect(() => {
-    fetch("https://newsapi.org/v2/everything?q=space&apiKey=857c2f8193ac4125aa7ae4f9129e1ccc")
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-    })
-  })
-  
+    fetch("https://api.spaceflightnewsapi.net/v3/articles")
+      .then((response) => response.json())
+      .then((data) => {
+        setNewsList(data);
+      });
+  });
 
   return (
     <div className="App">
       <div className="title">
         <h1>Space News</h1>
       </div>
-      <div className="newsContainer"></div>
+      <div className="newsContainer">
+        {newsList.map((val, key) => {
+          return (
+            <div key={key}>
+              {val.title}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
